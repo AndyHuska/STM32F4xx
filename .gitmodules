@@ -1,6 +1,7 @@
 [submodule "grbl"]
 	path = grbl
-	url = https://github.com/grblHAL/core
+	url = https://github.com/AndyHuska/core.git
+	branch = dev/octowrapper
 [submodule "eeprom"]
 	path = eeprom
 	url = https://github.com/grblHAL/Plugin_EEPROM
@@ -33,7 +34,8 @@
 	url = https://github.com/grblHAL/Plugin_embroidery
 [submodule "networking"]
 	path = networking
-	url = https://github.com/grblHAL/Plugin_networking
+	url = https://github.com/AndyHuska/Plugin_networking.git
+	branch = dev/octowrapper
 [submodule "encoder"]
 	path = encoder
 	url = https://github.com/grblHAL/Plugin_encoder
@@ -48,7 +50,8 @@
 	url = https://github.com/grblHAL/Plugin_WebUI/
 [submodule "plugins"]
 	path = plugins
-	url = https://github.com/grblHAL/Plugins_misc/
+	url = https://github.com/AndyHuska/Plugins_misc.git
+	branch = dev/octowrapper
 [submodule "openpnp"]
 	path = openpnp
 	url = https://github.com/grblHAL/Plugin_OpenPNP/

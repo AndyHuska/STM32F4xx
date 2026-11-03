@@ -1,0 +1,127 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "F4 PMC-02-AA: Build + Download + Debug",
+            "type": "cortex-debug",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceFolder}/.pio/build/pmc_02_aa_debug/firmware.elf",
+            "preLaunchTask": "PIO: Build PMC-02-AA Debug",
+            "servertype": "openocd",
+            "gdbPath": "C:/Users/Andy/gitlab/octo_fw/STM32F4 Projects/PMC-02-AA/tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gdb.exe",
+            "serverpath": "C:/Users/Andy/gitlab/octo_fw/STM32F4 Projects/PMC-02-AA/tools/xpack-openocd-0.12.0-7/bin/openocd.exe",
+            "searchDir": ["C:/Users/Andy/gitlab/octo_fw/STM32F4 Projects/PMC-02-AA/tools/xpack-openocd-0.12.0-7/openocd/scripts"],
+            "configFiles": ["interface/stlink.cfg", "target/stm32f4x.cfg"],
+            "openOCDLaunchCommands": ["adapter speed 1000"],
+            "device": "STM32F407ZG",
+            "interface": "swd",
+            "runToEntryPoint": "main"
+        },
+        {
+            "name": "F4 PMC-02-AA: Attach (No Download, No Reset)",
+            "type": "cortex-debug",
+            "request": "attach",
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceFolder}/.pio/build/${input:pmcAttachXYZ}/firmware.elf",
+            "servertype": "openocd",
+            "gdbPath": "C:/Users/Andy/gitlab/octo_fw/STM32F4 Projects/PMC-02-AA/tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gdb.exe",
+            "serverpath": "C:/Users/Andy/gitlab/octo_fw/STM32F4 Projects/PMC-02-AA/tools/xpack-openocd-0.12.0-7/bin/openocd.exe",
+            "searchDir": ["C:/Users/Andy/gitlab/octo_fw/STM32F4 Projects/PMC-02-AA/tools/xpack-openocd-0.12.0-7/openocd/scripts"],
+            "configFiles": ["interface/stlink.cfg", "target/stm32f4x.cfg"],
+            "openOCDLaunchCommands": ["adapter speed 1000"],
+            "overrideAttachCommands": ["monitor halt"],
+            "device": "STM32F407ZG",
+            "interface": "swd"
+        },
+        {
+            "name": "F4 PMC-02-AA Six Axis: Build + Download + Debug",
+            "type": "cortex-debug",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceFolder}/.pio/build/pmc_02_aa_6axis_debug/firmware.elf",
+            "preLaunchTask": "PIO: Build PMC-02-AA Six Axis Debug",
+            "servertype": "openocd",
+            "gdbPath": "C:/Users/Andy/gitlab/octo_fw/STM32F4 Projects/PMC-02-AA/tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gdb.exe",
+            "serverpath": "C:/Users/Andy/gitlab/octo_fw/STM32F4 Projects/PMC-02-AA/tools/xpack-openocd-0.12.0-7/bin/openocd.exe",
+            "searchDir": ["C:/Users/Andy/gitlab/octo_fw/STM32F4 Projects/PMC-02-AA/tools/xpack-openocd-0.12.0-7/openocd/scripts"],
+            "configFiles": ["interface/stlink.cfg", "target/stm32f4x.cfg"],
+            "openOCDLaunchCommands": ["adapter speed 1000"],
+            "device": "STM32F407ZG",
+            "interface": "swd",
+            "runToEntryPoint": "main"
+        },
+        {
+            "name": "F4 PMC-02-AA Six Axis: Attach (No Download, No Reset)",
+            "type": "cortex-debug",
+            "request": "attach",
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceFolder}/.pio/build/${input:pmcAttachSixAxis}/firmware.elf",
+            "servertype": "openocd",
+            "gdbPath": "C:/Users/Andy/gitlab/octo_fw/STM32F4 Projects/PMC-02-AA/tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gdb.exe",
+            "serverpath": "C:/Users/Andy/gitlab/octo_fw/STM32F4 Projects/PMC-02-AA/tools/xpack-openocd-0.12.0-7/bin/openocd.exe",
+            "searchDir": ["C:/Users/Andy/gitlab/octo_fw/STM32F4 Projects/PMC-02-AA/tools/xpack-openocd-0.12.0-7/openocd/scripts"],
+            "configFiles": ["interface/stlink.cfg", "target/stm32f4x.cfg"],
+            "openOCDLaunchCommands": ["adapter speed 1000"],
+            "overrideAttachCommands": ["monitor halt"],
+            "device": "STM32F407ZG",
+            "interface": "swd"
+        },
+        {
+            "name": "F4 PMC-02-AA Eight Axis: Build + Download + Debug",
+            "type": "cortex-debug",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceFolder}/.pio/build/pmc_02_aa_8axis_debug/firmware.elf",
+            "preLaunchTask": "PIO: Build PMC-02-AA Eight Axis Debug",
+            "servertype": "openocd",
+            "gdbPath": "C:/Users/Andy/gitlab/octo_fw/STM32F4 Projects/PMC-02-AA/tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gdb.exe",
+            "serverpath": "C:/Users/Andy/gitlab/octo_fw/STM32F4 Projects/PMC-02-AA/tools/xpack-openocd-0.12.0-7/bin/openocd.exe",
+            "searchDir": ["C:/Users/Andy/gitlab/octo_fw/STM32F4 Projects/PMC-02-AA/tools/xpack-openocd-0.12.0-7/openocd/scripts"],
+            "configFiles": ["interface/stlink.cfg", "target/stm32f4x.cfg"],
+            "openOCDLaunchCommands": ["adapter speed 1000"],
+            "device": "STM32F407ZG",
+            "interface": "swd",
+            "runToEntryPoint": "main"
+        },
+        {
+            "name": "F4 PMC-02-AA Eight Axis: Attach (No Download, No Reset)",
+            "type": "cortex-debug",
+            "request": "attach",
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceFolder}/.pio/build/${input:pmcAttachEightAxis}/firmware.elf",
+            "servertype": "openocd",
+            "gdbPath": "C:/Users/Andy/gitlab/octo_fw/STM32F4 Projects/PMC-02-AA/tools/xpack-arm-none-eabi-gcc-15.2.1-1.1/bin/arm-none-eabi-gdb.exe",
+            "serverpath": "C:/Users/Andy/gitlab/octo_fw/STM32F4 Projects/PMC-02-AA/tools/xpack-openocd-0.12.0-7/bin/openocd.exe",
+            "searchDir": ["C:/Users/Andy/gitlab/octo_fw/STM32F4 Projects/PMC-02-AA/tools/xpack-openocd-0.12.0-7/openocd/scripts"],
+            "configFiles": ["interface/stlink.cfg", "target/stm32f4x.cfg"],
+            "openOCDLaunchCommands": ["adapter speed 1000"],
+            "overrideAttachCommands": ["monitor halt"],
+            "device": "STM32F407ZG",
+            "interface": "swd"
+        }
+    ],
+    "inputs": [
+        {
+            "id": "pmcAttachXYZ",
+            "type": "pickString",
+            "description": "Select the XYZ ELF matching the firmware already flashed (no build/upload)",
+            "options": ["pmc_02_aa", "pmc_02_aa_debug"],
+            "default": "pmc_02_aa"
+        },
+        {
+            "id": "pmcAttachSixAxis",
+            "type": "pickString",
+            "description": "Select the six-axis ELF matching the firmware already flashed (no build/upload)",
+            "options": ["pmc_02_aa_6axis", "pmc_02_aa_6axis_debug"],
+            "default": "pmc_02_aa_6axis_debug"
+        },
+        {
+            "id": "pmcAttachEightAxis",
+            "type": "pickString",
+            "description": "Select the eight-axis ELF matching the firmware already flashed (no build/upload)",
+            "options": ["pmc_02_aa_8axis", "pmc_02_aa_8axis_debug"],
+            "default": "pmc_02_aa_8axis"
+        }
+    ]
+}

@@ -510,6 +510,21 @@ static output_signal_t outputpin[] = {
 #elif defined(AUXOUTPUT2_PWM_PORT)
     { .id = Output_Analog_Aux2,     .port = AUXOUTPUT2_PWM_PORT,    .pin = AUXOUTPUT2_PWM_PIN,      .group = PinGroup_AuxOutputAnalog, .mode = { PINMODE_PWM } },
 #endif
+#ifdef AUXOUTPUT3_PWM_PORT
+    { .id = Output_Analog_Aux3,     .port = AUXOUTPUT3_PWM_PORT,    .pin = AUXOUTPUT3_PWM_PIN,      .group = PinGroup_AuxOutputAnalog, .mode = { PINMODE_PWM } },
+#endif
+#ifdef AUXOUTPUT4_PWM_PORT
+    { .id = Output_Analog_Aux4,     .port = AUXOUTPUT4_PWM_PORT,    .pin = AUXOUTPUT4_PWM_PIN,      .group = PinGroup_AuxOutputAnalog, .mode = { PINMODE_PWM } },
+#endif
+#ifdef AUXOUTPUT5_PWM_PORT
+    { .id = Output_Analog_Aux5,     .port = AUXOUTPUT5_PWM_PORT,    .pin = AUXOUTPUT5_PWM_PIN,      .group = PinGroup_AuxOutputAnalog, .mode = { PINMODE_PWM } },
+#endif
+#ifdef AUXOUTPUT6_PWM_PORT
+    { .id = Output_Analog_Aux6,     .port = AUXOUTPUT6_PWM_PORT,    .pin = AUXOUTPUT6_PWM_PIN,      .group = PinGroup_AuxOutputAnalog, .mode = { PINMODE_PWM } },
+#endif
+#ifdef AUXOUTPUT7_PWM_PORT
+    { .id = Output_Analog_Aux7,     .port = AUXOUTPUT7_PWM_PORT,    .pin = AUXOUTPUT7_PWM_PIN,      .group = PinGroup_AuxOutputAnalog, .mode = { PINMODE_PWM } },
+#endif
 };
 
 extern __IO uint32_t uwTick, cycle_count;
@@ -600,7 +615,7 @@ static void driver_delay (uint32_t ms, delay_callback_ptr callback)
     if((delay.ms = ms) > 0) {
         if(!(delay.callback = callback)) {
             while(delay.ms)
-                task_execute(true);
+                grbl.on_execute_delay(state_get());
         }
     } else {
         delay.callback = NULL;
@@ -2474,6 +2489,12 @@ uint32_t crc32_bitwise(const void* data, size_t length)
 
 bool bmac_eth_get (uint8_t mac[6])
 {
+#ifdef BOARD_ETH_MAC
+    static const uint8_t board_mac[] = {BOARD_ETH_MAC};
+    _Static_assert(sizeof(board_mac) == 6, "BOARD_ETH_MAC must contain six bytes");
+    memcpy(mac, board_mac, sizeof(board_mac));
+    return true;
+#else
 #if defined(_WIZCHIP_)
     // WizNet OUI prefix
     mac[0] = 0x00;
@@ -2502,6 +2523,7 @@ bool bmac_eth_get (uint8_t mac[6])
     memcpy(&mac[3], &crc, 3);
 
     return true;
+#endif
 }
 
 #endif // ETHERNET_ENABLE
@@ -2547,6 +2569,10 @@ static bool driver_setup (settings_t *settings)
 
             GPIO_Init.Pin = 1 << outputpin[i].pin;
             GPIO_Init.Mode = outputpin[i].mode.open_drain ? GPIO_MODE_OUTPUT_OD : GPIO_MODE_OUTPUT_PP;
+
+#if defined(BOARD_PMC_02_AA)
+            GPIO_Init.Speed = outputpin[i].port == GPIOC && outputpin[i].pin >= 14 ? GPIO_SPEED_FREQ_LOW : GPIO_SPEED_FREQ_HIGH;
+#endif
 
             if(outputpin[i].group == PinGroup_MotorChipSelect ||
                 outputpin[i].group == PinGroup_MotorUART ||
@@ -2818,6 +2844,7 @@ bool driver_init (void)
     hal.timer.start = timerStart;
     hal.timer.stop = timerStop;
 
+    hal.settings_changed = on_settings_changed;
     grbl.on_settings_changed = on_settings_changed;
 
     cycles2us_factor = 0xFFFFFFFFU / hal.f_mcu;
@@ -2972,6 +2999,7 @@ bool driver_init (void)
 #endif
     hal.coolant_cap.bits = COOLANT_ENABLE;
     hal.driver_cap.software_debounce = On;
+    hal.driver_cap.amass_level = MAX_AMASS_LEVEL;
     hal.driver_cap.step_pulse_delay = On;
     hal.driver_cap.control_pull_up = On;
     hal.driver_cap.limits_pull_up = On;

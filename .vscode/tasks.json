@@ -1,0 +1,191 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "PIO: Build PMC-02-AA",
+			"type": "shell",
+			"command": "C:/Users/Andy/.platformio/penv/Scripts/platformio.exe",
+			"args": [
+				"run",
+				"-d",
+				"C:/Users/Andy/git/GRBLHAL/STM32F4xx",
+				"-e",
+				"pmc_02_aa",
+				"-j",
+				"8"
+			],
+			"isBackground": false,
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": "build"
+		},
+		{
+			"label": "PIO: Build PMC-02-AA Six Axis",
+			"type": "shell",
+			"command": "C:/Users/Andy/.platformio/penv/Scripts/platformio.exe",
+			"args": [
+				"run",
+				"-d",
+				"C:/Users/Andy/git/GRBLHAL/STM32F4xx",
+				"-e",
+				"pmc_02_aa_6axis",
+				"-j",
+				"8"
+			],
+			"isBackground": false,
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": "build"
+		},
+		{
+			"label": "PIO: Flash PMC-02-AA (STLink)",
+			"type": "shell",
+			"command": "C:/Users/Andy/.platformio/penv/Scripts/platformio.exe",
+			"args": [
+				"run",
+				"-d",
+				"${workspaceFolder}",
+				"-e",
+				"pmc_02_aa",
+				"-t",
+				"upload",
+				"-j",
+				"8"
+			],
+			"problemMatcher": [
+				"$gcc"
+			]
+		},
+		{
+			"label": "PIO: Build+Flash PMC-02-AA (STLink)",
+			"dependsOn": [
+				"PIO: Build PMC-02-AA",
+				"PIO: Flash PMC-02-AA (STLink)"
+			],
+			"dependsOrder": "sequence"
+		},
+		{
+			"label": "PIO: Flash PMC-02-AA Six Axis (STLink)",
+			"type": "shell",
+			"command": "C:/Users/Andy/.platformio/penv/Scripts/platformio.exe",
+			"args": [
+				"run",
+				"-d",
+				"${workspaceFolder}",
+				"-e",
+				"pmc_02_aa_6axis",
+				"-t",
+				"upload",
+				"-j",
+				"8"
+			],
+			"problemMatcher": [
+				"$gcc"
+			]
+		},
+		{
+			"label": "PIO: Build+Flash PMC-02-AA Six Axis (STLink)",
+			"dependsOn": [
+				"PIO: Build PMC-02-AA Six Axis",
+				"PIO: Flash PMC-02-AA Six Axis (STLink)"
+			],
+			"dependsOrder": "sequence"
+		},
+		{
+			"label": "PIO: Build PMC-02-AA Debug",
+			"type": "shell",
+			"command": "C:/Users/Andy/.platformio/penv/Scripts/platformio.exe",
+			"args": [
+				"run",
+				"-d",
+				"${workspaceFolder}",
+				"-e",
+				"pmc_02_aa_debug",
+				"-j",
+				"8"
+			],
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": "build"
+		},
+		{
+			"label": "PIO: Build PMC-02-AA Six Axis Debug",
+			"type": "shell",
+			"command": "C:/Users/Andy/.platformio/penv/Scripts/platformio.exe",
+			"args": [
+				"run",
+				"-d",
+				"${workspaceFolder}",
+				"-e",
+				"pmc_02_aa_6axis_debug",
+				"-j",
+				"8"
+			],
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": "build"
+		},
+		{
+			"label": "PIO: Build PMC-02-AA Eight Axis",
+			"type": "shell",
+			"command": "C:/Users/Andy/.platformio/penv/Scripts/platformio.exe",
+			"args": [
+				"run",
+				"-d",
+				"C:/Users/Andy/git/GRBLHAL/STM32F4xx",
+				"-e",
+				"pmc_02_aa_8axis",
+				"-j",
+				"8"
+			],
+			"isBackground": false,
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": "build"
+		},
+		{
+			"label": "PIO: Flash PMC-02-AA Eight Axis (STLink)",
+			"type": "shell",
+			"command": "C:/Users/Andy/.platformio/penv/Scripts/platformio.exe",
+			"args": [
+				"run",
+				"-d",
+				"C:/Users/Andy/git/GRBLHAL/STM32F4xx",
+				"-e",
+				"pmc_02_aa_8axis",
+				"-t",
+				"upload",
+				"-j",
+				"8"
+			],
+			"isBackground": false,
+			"problemMatcher": [
+				"$gcc"
+			]
+		},
+		{
+			"label": "PIO: Build PMC-02-AA Eight Axis Debug",
+			"type": "shell",
+			"command": "C:/Users/Andy/.platformio/penv/Scripts/platformio.exe",
+			"args": [
+				"run",
+				"-d",
+				"C:/Users/Andy/git/GRBLHAL/STM32F4xx",
+				"-e",
+				"pmc_02_aa_8axis_debug",
+				"-j",
+				"8"
+			],
+			"isBackground": false,
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": "build"
+		}
+	]
+}

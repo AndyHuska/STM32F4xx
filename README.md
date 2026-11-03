@@ -2,6 +2,11 @@
 
 A grblHAL driver for the STM32F401xC, STM32F407xx, STM32F411xE and STM32F446xx ARM processors.
 
+For the custom PMC-02-AA F407 board, see [board bring-up notes](boards/pmc_02_aa.md).
+Its PlatformIO targets are `pmc_02_aa` (XYZ), `pmc_02_aa_6axis` and
+`pmc_02_aa_8axis` (temporary U/V on spare MCU pins); outputs are
+disabled by default pending hardware validation.
+
 Loosely based on code from robomechs [6-AXIS-USBCNC-GRBL](https://github.com/robomechs/6-AXIS-USBCNC-GRBL) port, updated for [STM32CubeIDE](https://www.st.com/en/development-tools/stm32cubeide.htm) and the latest STM HAL drivers where appropriate.
 
 # Quickstart

@@ -21,7 +21,8 @@
 
 #include "driver.h"
 
-#if defined(AUXOUTPUT0_PWM_PORT) || defined(AUXOUTPUT1_PWM_PORT) || defined(AUXOUTPUT2_PWM_PORT) ||\
+#if defined(AUXOUTPUT0_PWM_PORT) || defined(AUXOUTPUT1_PWM_PORT) || defined(AUXOUTPUT2_PWM_PORT) || defined(AUXOUTPUT3_PWM_PORT) ||\
+    defined(AUXOUTPUT4_PWM_PORT) || defined(AUXOUTPUT5_PWM_PORT) || defined(AUXOUTPUT6_PWM_PORT) || defined(AUXOUTPUT7_PWM_PORT) ||\
      defined(AUXOUTPUT0_ANALOG_PORT) || defined(AUXOUTPUT1_ANALOG_PORT) || defined(AUXOUTPUT2_ANALOG_PORT) ||\
       defined(AUXINPUT0_ANALOG_PORT) || defined(AUXINPUT1_ANALOG_PORT)
 
@@ -43,6 +44,36 @@
 #define PWM_OUT2 0
 #endif
 
+#ifdef AUXOUTPUT3_PWM_PORT
+#define PWM_OUT3 1
+#else
+#define PWM_OUT3 0
+#endif
+
+#ifdef AUXOUTPUT4_PWM_PORT
+#define PWM_OUT4 1
+#else
+#define PWM_OUT4 0
+#endif
+
+#ifdef AUXOUTPUT5_PWM_PORT
+#define PWM_OUT5 1
+#else
+#define PWM_OUT5 0
+#endif
+
+#ifdef AUXOUTPUT6_PWM_PORT
+#define PWM_OUT6 1
+#else
+#define PWM_OUT6 0
+#endif
+
+#ifdef AUXOUTPUT7_PWM_PORT
+#define PWM_OUT7 1
+#else
+#define PWM_OUT7 0
+#endif
+
 #ifdef AUXOUTPUT0_ANALOG_PORT
 #define DAC_OUT0 1
 #else
@@ -55,7 +86,7 @@
 #define DAC_OUT1 0
 #endif
 
-#define AUX_ANALOG_PWM_OUT (PWM_OUT0 + PWM_OUT1 + PWM_OUT2)
+#define AUX_ANALOG_PWM_OUT (PWM_OUT0 + PWM_OUT1 + PWM_OUT2 + PWM_OUT3 + PWM_OUT4 + PWM_OUT5 + PWM_OUT6 + PWM_OUT7)
 #define AUX_ANALOG_DAC_OUT (DAC_OUT0 + DAC_OUT1)
 #define AUX_ANALOG_OUT (AUX_ANALOG_PWM_OUT + AUX_ANALOG_DAC_OUT)
 

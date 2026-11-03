@@ -82,7 +82,7 @@ int32_t  DP83848_RegisterBusIO(dp83848_Object_t *pObj, dp83848_IOCtx_t *ioctx)
   */
  int32_t DP83848_Init(dp83848_Object_t *pObj)
  {
-   uint32_t regvalue = 0, addr = 0;
+  uint32_t regvalue = 0, phyid = 0, addr = 0;
    int32_t status = DP83848_STATUS_OK;
 
    if(pObj->Is_Initialized == 0)
@@ -96,10 +96,16 @@ int32_t  DP83848_RegisterBusIO(dp83848_Object_t *pObj, dp83848_IOCtx_t *ioctx)
      /* for later check */
      pObj->DevAddr = DP83848_MAX_DEV_ADDR + 1;
 
-     /* Get the device address from special mode register */
      for(addr = 0; addr <= DP83848_MAX_DEV_ADDR; addr ++)
      {
-       if(pObj->IO.ReadReg(addr, DP83848_SMR, &regvalue) < 0)
+#ifdef ETH_PHY_ADDRESS
+       if(addr != ETH_PHY_ADDRESS)
+       {
+         continue;
+       }
+#endif
+       if(pObj->IO.ReadReg(addr, DP83848_PHYI1R, &phyid) < 0 ||
+          pObj->IO.ReadReg(addr, DP83848_PHYI2R, &regvalue) < 0)
        {
          status = DP83848_STATUS_READ_ERROR;
          /* Can't read from this device address
@@ -107,7 +113,7 @@ int32_t  DP83848_RegisterBusIO(dp83848_Object_t *pObj, dp83848_IOCtx_t *ioctx)
          continue;
        }
 
-       if((regvalue & DP83848_SMR_PHY_ADDR) == addr)
+      if(phyid == 0x2000U && (regvalue & 0xFFF0U) == 0x5C90U)
        {
          pObj->DevAddr = addr;
          status = DP83848_STATUS_OK;

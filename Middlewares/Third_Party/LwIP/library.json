@@ -1,0 +1,8 @@
+{
+  "name": "LwIP",
+  "version": "2.1.2",
+  "build": {
+    "srcDir": "src",
+    "includeDir": "src/include"
+  }
+}

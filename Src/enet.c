@@ -324,10 +324,15 @@ bool enet_start (void)
 
         lwip_init();
 
+        struct netif *netif;
+
         if(network.ip_mode == IpMode_Static)
-            netif_add(&ethif, (ip_addr_t *)&network.ip, (ip_addr_t *)&network.mask, (ip_addr_t *)&network.gateway, NULL, &ethernetif_init, &ethernet_input);
+            netif = netif_add(&ethif, (ip_addr_t *)&network.ip, (ip_addr_t *)&network.mask, (ip_addr_t *)&network.gateway, NULL, &ethernetif_init, &ethernet_input);
         else
-            netif_add(&ethif, NULL, NULL, NULL, NULL, &ethernetif_init, &ethernet_input);
+            netif = netif_add(&ethif, NULL, NULL, NULL, NULL, &ethernetif_init, &ethernet_input);
+
+        if(netif == NULL)
+            return false;
 
         netif_set_default(&ethif);
         netif_set_link_callback(netif_default, link_status_callback);
@@ -593,7 +598,7 @@ static void ethernet_settings_load (void)
     ethernet.services.mask &= allowed_services.mask;
 }
 
-bool enet_init (network_settings_t *settings)
+bool enet_init (void)
 {
     static setting_details_t setting_details = {
         .groups = ethernet_groups,

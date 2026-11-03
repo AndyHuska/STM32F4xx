@@ -102,6 +102,18 @@
 /*-----------------------------------------------------------------------------*/
 /* USER CODE BEGIN 1 */
 
+#if defined(BOARD_PMC_02_AA)
+#define LWIP_SUPPORT_CUSTOM_PBUF 1
+#define LWIP_NETIF_STATUS_CALLBACK 1
+#define MEM_SIZE (12 * 1024)
+#define PBUF_POOL_SIZE 8
+#define TCP_MSS 1460
+#define TCP_SND_BUF (4 * TCP_MSS)
+#undef TCP_SND_QUEUELEN
+#define TCP_SND_QUEUELEN 16
+#define TCP_WND (4 * TCP_MSS)
+#endif
+
 /* USER CODE END 1 */
 
 #ifdef __cplusplus

@@ -102,6 +102,10 @@ static const pwm_signal_t pwm_pin[] = {
 #endif
 #if !IS_TIMER_CLAIMED(TIM4_BASE)
     {
+        .port = GPIOB, .pin = 7, .timer = timer(4), .ccr = &timerCCR(4, 2), .ccmr = &timerCCMR(4, 1), .af = timerAF(4, 2),
+        .en = timerCCEN(2, ), .pol = timerCCP(2, ), .ois = timerCR2OIS(2, ), .ocm = timerOCM(1, 2), .ocmc = timerOCM(1, 2)
+    },
+    {
         .port = GPIOD, .pin = 12, .timer = timer(4), .ccr = &timerCCR(4, 1), .ccmr = &timerCCMR(4, 1), .af = timerAF(4, 2),
         .en = timerCCEN(1, ), .pol = timerCCP(1, ), .ois = timerCR2OIS(1, ), .ocm = timerOCM(1, 1), .ocmc = timerOCM(1, 1)
     },
@@ -127,13 +131,21 @@ static const pwm_signal_t pwm_pin[] = {
         .en = timerCCEN(2, ), .pol = timerCCP(2, ), .ois = timerCR2OIS(2, ), .ocm = timerOCM(1, 2), .ocmc = timerOCM(1, 2)
     },
     {
+        .port = GPIOB, .pin = 8, .timer = timer(10), .ccr = &timerCCR(10, 1), .ccmr = &timerCCMR(10, 1), .af = timerAF(10, 3),
+        .en = timerCCEN(1, ), .pol = timerCCP(1, ), .ois = timerCR2OIS(1, ), .ocm = timerOCM(1, 1), .ocmc = timerOCM(1, 1)
+    },
+    {
         .port = GPIOB, .pin = 9, .timer = timer(11), .ccr = &timerCCR(11, 1), .ccmr = &timerCCMR(11, 1), .af = timerAF(11, 3),
         .en = timerCCEN(1, ), .pol = timerCCP(1, ), .ois = timerCR2OIS(1, ), .ocm = timerOCM(1, 1), .ocmc = timerOCM(1, 1)
+    },
+    {
+        .port = GPIOB, .pin = 15, .timer = timer(12), .ccr = &timerCCR(12, 2), .ccmr = &timerCCMR(12, 1), .af = timerAF(12, 9),
+        .en = timerCCEN(2, ), .pol = timerCCP(2, ), .ois = timerCR2OIS(2, ), .ocm = timerOCM(1, 2), .ocmc = timerOCM(1, 2)
     }
 };
 
 uint_fast8_t n_claimed = 0;
-pwm_claimed_t pwm_claimed[5] = {0};
+pwm_claimed_t pwm_claimed[sizeof(pwm_pin) / sizeof(pwm_pin[0])] = {0};
 
 // TODO: somehow handle frequency/period when two or more PWM outputs share the same timer...
 

@@ -770,6 +770,12 @@ static const io_stream_t *serialInit (uint32_t baud_rate)
 
 #endif
 
+    #ifdef SERIAL_RX_PULL_MODE
+        GPIO_InitStructure.Pin = 1 << UART0_RX_PIN;
+        GPIO_InitStructure.Pull = SERIAL_RX_PULL_MODE;
+        HAL_GPIO_Init(UART0_RX_PORT, &GPIO_InitStructure);
+    #endif
+
         HAL_NVIC_SetPriority(UART0_IRQ, 1, 0);
         HAL_NVIC_EnableIRQ(UART0_IRQ);
 

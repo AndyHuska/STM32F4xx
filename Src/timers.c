@@ -41,8 +41,7 @@ static dtimer_t timers[] = {
         .cap = {
           .comp1 = IS_TIM_CC1_INSTANCE(TIM1),
           .comp2 = IS_TIM_CC2_INSTANCE(TIM1),
-          .comp3 = IS_TIM_CC3_INSTANCE(TIM1),
-          .resolution = IS_TIM_32B_COUNTER_INSTANCE(TIM1) ? Timer_32bit : Timer_16bit
+          .comp3 = IS_TIM_CC3_INSTANCE(TIM1)
         }
     },
 #endif
@@ -53,8 +52,7 @@ static dtimer_t timers[] = {
         .cap = {
           .comp1 = IS_TIM_CC1_INSTANCE(TIM2),
           .comp2 = IS_TIM_CC2_INSTANCE(TIM2),
-          .comp3 = IS_TIM_CC3_INSTANCE(TIM2),
-          .resolution = IS_TIM_32B_COUNTER_INSTANCE(TIM2) ? Timer_32bit : Timer_16bit
+          .comp3 = IS_TIM_CC3_INSTANCE(TIM2)
         }
     },
 #endif
@@ -65,8 +63,7 @@ static dtimer_t timers[] = {
         .cap = {
           .comp1 = IS_TIM_CC1_INSTANCE(TIM3),
           .comp2 = IS_TIM_CC2_INSTANCE(TIM3),
-          .comp3 = IS_TIM_CC3_INSTANCE(TIM3),
-          .resolution = IS_TIM_32B_COUNTER_INSTANCE(TIM3) ? Timer_32bit : Timer_16bit
+          .comp3 = IS_TIM_CC3_INSTANCE(TIM3)
         }
     },
 #endif
@@ -77,8 +74,7 @@ static dtimer_t timers[] = {
         .cap = {
           .comp1 = IS_TIM_CC1_INSTANCE(TIM4),
           .comp2 = IS_TIM_CC2_INSTANCE(TIM4),
-          .comp3 = IS_TIM_CC3_INSTANCE(TIM4),
-          .resolution = IS_TIM_32B_COUNTER_INSTANCE(TIM4) ? Timer_32bit : Timer_16bit
+          .comp3 = IS_TIM_CC3_INSTANCE(TIM4)
         }
     },
 #endif
@@ -89,8 +85,7 @@ static dtimer_t timers[] = {
         .cap = {
           .comp1 = IS_TIM_CC1_INSTANCE(TIM5),
           .comp2 = IS_TIM_CC2_INSTANCE(TIM5),
-          .comp3 = IS_TIM_CC3_INSTANCE(TIM5),
-          .resolution = IS_TIM_32B_COUNTER_INSTANCE(TIM5) ? Timer_32bit : Timer_16bit
+          .comp3 = IS_TIM_CC3_INSTANCE(TIM5)
         }
     },
 #endif
@@ -105,8 +100,7 @@ static dtimer_t timers[] = {
         .cap = {
           .comp1 = IS_TIM_CC1_INSTANCE(TIM6),
           .comp2 = IS_TIM_CC2_INSTANCE(TIM6),
-          .comp3 = IS_TIM_CC3_INSTANCE(TIM6),
-          .resolution = IS_TIM_32B_COUNTER_INSTANCE(TIM6) ? Timer_32bit : Timer_16bit
+          .comp3 = IS_TIM_CC3_INSTANCE(TIM6)
         }
     },
 #endif
@@ -117,8 +111,7 @@ static dtimer_t timers[] = {
         .cap = {
           .comp1 = IS_TIM_CC1_INSTANCE(TIM7),
           .comp2 = IS_TIM_CC2_INSTANCE(TIM7),
-          .comp3 = IS_TIM_CC3_INSTANCE(TIM7),
-          .resolution = IS_TIM_32B_COUNTER_INSTANCE(TIM7) ? Timer_32bit : Timer_16bit
+          .comp3 = IS_TIM_CC3_INSTANCE(TIM7)
         }
     },
 #endif
@@ -129,8 +122,7 @@ static dtimer_t timers[] = {
         .cap = {
           .comp1 = IS_TIM_CC1_INSTANCE(TIM8),
           .comp2 = IS_TIM_CC2_INSTANCE(TIM8),
-          .comp3 = IS_TIM_CC3_INSTANCE(TIM8),
-          .resolution = IS_TIM_32B_COUNTER_INSTANCE(TIM8) ? Timer_32bit : Timer_16bit
+          .comp3 = IS_TIM_CC3_INSTANCE(TIM8)
         }
     },
 #endif
@@ -141,8 +133,7 @@ static dtimer_t timers[] = {
         .cap = {
           .comp1 = IS_TIM_CC1_INSTANCE(TIM9),
           .comp2 = IS_TIM_CC2_INSTANCE(TIM9),
-          .comp3 = IS_TIM_CC3_INSTANCE(TIM9),
-          .resolution = IS_TIM_32B_COUNTER_INSTANCE(TIM9) ? Timer_32bit : Timer_16bit
+          .comp3 = IS_TIM_CC3_INSTANCE(TIM9)
         }
     },
 #endif
@@ -153,8 +144,7 @@ static dtimer_t timers[] = {
         .cap = {
           .comp1 = IS_TIM_CC1_INSTANCE(TIM10),
           .comp2 = IS_TIM_CC2_INSTANCE(TIM10),
-          .comp3 = IS_TIM_CC3_INSTANCE(TIM10),
-          .resolution = IS_TIM_32B_COUNTER_INSTANCE(TIM10) ? Timer_32bit : Timer_16bit
+          .comp3 = IS_TIM_CC3_INSTANCE(TIM10)
         }
     },
 #endif
@@ -165,8 +155,7 @@ static dtimer_t timers[] = {
         .cap = {
           .comp1 = IS_TIM_CC1_INSTANCE(TIM11),
           .comp2 = IS_TIM_CC2_INSTANCE(TIM11),
-          .comp3 = IS_TIM_CC3_INSTANCE(TIM11),
-          .resolution = IS_TIM_32B_COUNTER_INSTANCE(TIM11) ? Timer_32bit : Timer_16bit
+          .comp3 = IS_TIM_CC3_INSTANCE(TIM11)
         }
     },
 #endif
@@ -177,8 +166,7 @@ static dtimer_t timers[] = {
         .cap = {
           .comp1 = IS_TIM_CC1_INSTANCE(TIM12),
           .comp2 = IS_TIM_CC2_INSTANCE(TIM12),
-          .comp3 = IS_TIM_CC3_INSTANCE(TIM12),
-          .resolution = IS_TIM_32B_COUNTER_INSTANCE(TIM12) ? Timer_32bit : Timer_16bit
+          .comp3 = IS_TIM_CC3_INSTANCE(TIM12)
         }
     },
 #endif
@@ -189,8 +177,7 @@ static dtimer_t timers[] = {
         .cap = {
           .comp1 = IS_TIM_CC1_INSTANCE(TIM13),
           .comp2 = IS_TIM_CC2_INSTANCE(TIM13),
-          .comp3 = IS_TIM_CC3_INSTANCE(TIM13),
-          .resolution = IS_TIM_32B_COUNTER_INSTANCE(TIM13) ? Timer_32bit : Timer_16bit
+          .comp3 = IS_TIM_CC3_INSTANCE(TIM13)
         }
     },
 #endif
@@ -201,8 +188,7 @@ static dtimer_t timers[] = {
         .cap = {
           .comp1 = IS_TIM_CC1_INSTANCE(TIM14),
           .comp2 = IS_TIM_CC2_INSTANCE(TIM14),
-          .comp3 = IS_TIM_CC3_INSTANCE(TIM14),
-          .resolution = IS_TIM_32B_COUNTER_INSTANCE(TIM14) ? Timer_32bit : Timer_16bit
+          .comp3 = IS_TIM_CC3_INSTANCE(TIM14)
         }
     }
 #endif
@@ -227,7 +213,7 @@ timer_resolution_t timer_get_resolution (TIM_TypeDef *timer)
 {
     dtimer_t *dtimer;
 
-    return (timer_resolution_t)((dtimer = timer_get(timer)) ? dtimer->cap.resolution : 0);
+    return (dtimer = timer_get(timer)) && IS_TIM_32B_COUNTER_INSTANCE(dtimer->timer) ? Timer_32bit : Timer_16bit;
 }
 
 timer_cap_t timer_get_cap (TIM_TypeDef *timer)
@@ -356,11 +342,11 @@ uint32_t timer_clk_enable (TIM_TypeDef *timer)
 
 hal_timer_t timerClaim (timer_cap_t cap, uint32_t timebase)
 {
-    hal_timer_t t;
+    hal_timer_t t = NULL;
     uint_fast8_t idx, n_timers = sizeof(timers) / sizeof(dtimer_t);
 
     for(idx = 0; idx < n_timers; idx++) {
-        if((t = timers[idx].claimed && timers[idx].cap.resolution != cap.resolution ? NULL : &timers[idx])) {
+        if((t = !timers[idx].claimed && (timers[idx].cap.value & cap.value) == cap.value ? &timers[idx] : NULL)) {
 
             uint32_t f = timer_clk_enable(timers[idx].timer) / 1000;
 

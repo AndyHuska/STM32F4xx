@@ -195,6 +195,8 @@
   #include "boards/btt_octopus_pro_map.h"
 #elif defined(BOARD_STM32F407VET6_DEV)
   #include "boards/stm32f407vet6_dev_board.h"
+#elif defined(BOARD_PMC_02_AA)
+  #include "boards/pmc_02_aa_map.h"
 #elif defined(BOARD_MY_MACHINE)
   #include "boards/my_machine_map.h"
 #else // default board
