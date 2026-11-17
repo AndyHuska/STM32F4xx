@@ -1,5 +1,15 @@
 # PMC-02-AA Bring-Up
 
+For the new immutable-bootloader application variants and debugger-assisted
+entry without running the loader, see [PMC_LEGACY_BOOT_BUILD.md](PMC_LEGACY_BOOT_BUILD.md).
+The original standalone targets described here remain available. Client
+motion supervision is enabled for PMC builds; see
+[CLIENT_SUPERVISION_SPEC.md](CLIENT_SUPERVISION_SPEC.md) for the `?` heartbeat
+and latched Alarm 22 behavior.
+
+Native F4 Ethernet now also offers [BOOTP acquisition](BOOTP_OPTION.md) as
+mode 3. Legacy builds select it; standalone builds retain DHCP defaults.
+
 Status: eight-axis release flashed on 2026-10-31; startup/DHCP/link checked;
 physical motion and Ethernet load/reconnect behavior remain unvalidated.
 This is an experimental standalone grblHAL replacement, not an image compatible

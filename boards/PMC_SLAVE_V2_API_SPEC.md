@@ -1,5 +1,13 @@
 # PMC-02-AA Slave API v2.0
 
+2026-11-04 deployment correction: EXISTING BOOTLOADERS ARE IMMUTABLE. The
+bootloader replacement, journal and update commands/sequence in this earlier
+proposal are withdrawn, not implementation requirements. Use the existing
+paired application packager/BOOTP/TFTP flow and the unchanged legacy layout;
+see [PMC_LEGACY_BOOT_BUILD.md](PMC_LEGACY_BOOT_BUILD.md). Operational application
+v2 commands/feedback remain a proposal to implement without loader changes.
+CAPABILITIES must not advertise the proposed update API on fixed-loader units.
+
 Status: proposed normative implementation contract, 2026-10-31. The user will
 implement/install the v2 slave bootloader and application. This specification
 supersedes conflicting behavior in the legacy parser and early bridge/update

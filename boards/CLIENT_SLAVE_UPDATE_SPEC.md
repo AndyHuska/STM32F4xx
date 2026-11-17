@@ -1,5 +1,11 @@
 # Client And Main-CPU Slave Firmware Streaming Contract
 
+2026-11-04: SUPERSEDED FOR DEPLOYMENT. Do not implement the $SLFW main-CPU
+streaming updater described below. Existing bootloaders cannot be field-updated;
+retain the original paired master/slave application packaging and BOOTP/TFTP
+update tool. See [PMC_LEGACY_BOOT_BUILD.md](PMC_LEGACY_BOOT_BUILD.md) for the
+compatible grblHAL image contract. The remainder is historical proposal only.
+
 Version 2.0 contract, 2026-10-31. For the Visual Studio 2026 agent maintaining
 the client. The companion [PMC_SLAVE_V2_API_SPEC.md](PMC_SLAVE_V2_API_SPEC.md)
 defines the slave wire protocol and flash/boot requirements.

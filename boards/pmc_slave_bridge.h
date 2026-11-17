@@ -36,6 +36,9 @@ typedef struct {
     pmc_slave_packet_t received;
     pmc_slave_request_t queue[PMC_SLAVE_QUEUE_SIZE];
     pmc_slave_request_t active;
+    pmc_slave_request_t independent[2];
+    bool independent_valid[2];
+    bool independent_sent[2];
     pmc_slave_status_t status;
     char version[65];
     uint8_t frame[PMC_SLAVE_MAX_FRAME];
@@ -58,6 +61,8 @@ void pmc_slave_bridge_init(pmc_slave_bridge_t *bridge, const pmc_slave_transport
                            pmc_slave_event_handler_t handler, void *context);
 bool pmc_slave_bridge_submit(pmc_slave_bridge_t *bridge, const pmc_slave_packet_t *request,
                              uint32_t now_ms, uint32_t timeout_ms, uint32_t *sequence);
+bool pmc_slave_bridge_submit_independent(pmc_slave_bridge_t *bridge, const pmc_slave_packet_t *request,
+                                         uint32_t now_ms, uint32_t timeout_ms, uint32_t *sequence);
 void pmc_slave_bridge_poll(pmc_slave_bridge_t *bridge, uint32_t now_ms);
 void pmc_slave_bridge_receive(pmc_slave_bridge_t *bridge, const uint8_t *bytes, size_t size, uint32_t now_ms);
 void pmc_slave_bridge_disconnect(pmc_slave_bridge_t *bridge);

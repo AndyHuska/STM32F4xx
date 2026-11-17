@@ -151,6 +151,7 @@ const uint8_t APBPrescTable[8]  = {0, 0, 0, 0, 1, 2, 3, 4};
   */
 void SystemInit(void)
 {
+#ifndef PMC_LEGACY_BOOTLOADER
     extern uint8_t _estack; /* Symbol defined in the linker script */
 
     uint32_t *addr;
@@ -185,6 +186,7 @@ void SystemInit(void)
 
         while(1) {};
     }
+    #endif
 
   /* FPU settings ------------------------------------------------------------*/
   #if (__FPU_PRESENT == 1) && (__FPU_USED == 1)

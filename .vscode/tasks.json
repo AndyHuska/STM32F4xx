@@ -186,6 +186,44 @@
 				"$gcc"
 			],
 			"group": "build"
+		},
+		{
+			"label": "PIO: Build PMC-02-AA Eight Axis Legacy Bootloader",
+			"type": "shell",
+			"command": "C:/Users/Andy/.platformio/penv/Scripts/platformio.exe",
+			"args": [
+				"run",
+				"-d",
+				"C:/Users/Andy/git/GRBLHAL/STM32F4xx",
+				"-e",
+				"pmc_02_aa_8axis_legacy",
+				"-j",
+				"8"
+			],
+			"isBackground": false,
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": "build"
+		},
+		{
+			"label": "PIO: Build PMC-02-AA Eight Axis Legacy Debug",
+			"type": "shell",
+			"command": "C:/Users/Andy/.platformio/penv/Scripts/platformio.exe",
+			"args": [
+				"run",
+				"-d",
+				"C:/Users/Andy/git/GRBLHAL/STM32F4xx",
+				"-e",
+				"pmc_02_aa_8axis_legacy_debug",
+				"-j",
+				"8"
+			],
+			"isBackground": false,
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": "build"
 		}
 	]
 }

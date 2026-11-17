@@ -204,6 +204,10 @@ static err_t low_level_init(struct netif *netif)
       heth.Init.MACAddr[5] = netif->hwaddr[5];
     } else if(bmac_eth_get(mac))
       memcpy(MACAddr, mac, sizeof(MACAddr));
+#if defined(BOARD_PMC_02_AA) && defined(PMC_LEGACY_BOOTLOADER)
+    else
+      return ERR_IF;
+#endif
 #endif
 
   /* USER CODE END MACADDRESS */

@@ -2489,6 +2489,23 @@ uint32_t crc32_bitwise(const void* data, size_t length)
 
 bool bmac_eth_get (uint8_t mac[6])
 {
+#if defined(BOARD_PMC_02_AA) && defined(PMC_LEGACY_BOOTLOADER)
+    const uint8_t *factory_mac = (const uint8_t *)UINT32_C(0x0800FF00);
+    const char *loader_version = (const char *)UINT32_C(0x0800FF08);
+    uint8_t any = 0, all = 0xFF;
+    for(uint_fast8_t index = 0; index < 6; index++) {
+        any |= factory_mac[index];
+        all &= factory_mac[index];
+    }
+    if(!memcmp(loader_version, "PMC-02-AA_", 10) && memchr(loader_version, 0, 64) &&
+       any && all != 0xFF && !(factory_mac[0] & 1U)) {
+        memcpy(mac, factory_mac, 6);
+        return true;
+    }
+#if !defined(PMC_LEGACY_MAC_FALLBACK) || !PMC_LEGACY_MAC_FALLBACK
+    return false;
+#endif
+#endif
 #ifdef BOARD_ETH_MAC
     static const uint8_t board_mac[] = {BOARD_ETH_MAC};
     _Static_assert(sizeof(board_mac) == 6, "BOARD_ETH_MAC must contain six bytes");

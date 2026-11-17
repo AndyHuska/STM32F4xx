@@ -268,6 +268,45 @@ static void test_bridge(void)
     assert(!bridge.active_valid && bridge.online && !bridge.status_valid);
 }
 
+static void test_concurrent_independent(void)
+{
+    test_transport_t test = {.connected = true};
+    pmc_slave_transport_t transport = {.context = &test, .send = test_send, .connected = test_connected};
+    pmc_slave_bridge_t bridge;
+    pmc_slave_bridge_init(&bridge, &transport, test_event, &test);
+    pmc_slave_packet_t heartbeat = {.command = PmcSlave_Heartbeat};
+    deliver(&bridge, &heartbeat, 0);
+    pmc_slave_packet_t move = {.command = PmcSlave_MoveIndependent | PMC_SLAVE_SYNC_FLAG,
+                               .word_count = 4, .words = {3, 100, 200, 300}};
+    uint32_t first, second;
+    assert(pmc_slave_bridge_submit_independent(&bridge, &move, 0, 1000, &first));
+    assert(!pmc_slave_bridge_submit_independent(&bridge, &move, 0, 1000, NULL));
+    move.words[0] = 4;
+    assert(pmc_slave_bridge_submit_independent(&bridge, &move, 0, 1000, &second));
+    pmc_slave_bridge_poll(&bridge, 1);
+    assert(test.sends == 2 && !bridge.active_valid);
+    assert(bridge.independent_sent[0] && bridge.independent_sent[1]);
+    pmc_slave_packet_t query = {.command = PmcSlave_ReadInputs};
+    assert(pmc_slave_bridge_submit(&bridge, &query, 2, 100, NULL));
+    pmc_slave_bridge_poll(&bridge, 2);
+    assert(test.sends == 3 && bridge.active_valid);
+    pmc_slave_packet_t reply = {.command = PmcSlave_MoveIndependent | PMC_SLAVE_SYNC_FLAG,
+                                .sequence = second, .word_count = 1, .words = {1}};
+    deliver(&bridge, &reply, 3);
+    assert(bridge.independent_valid[0] && !bridge.independent_valid[1] && bridge.active_valid);
+    reply.sequence = first;
+    reply.command = PmcSlave_MoveIndependent;
+    deliver(&bridge, &reply, 4);
+    assert(bridge.independent_valid[0]);
+    reply.command |= PMC_SLAVE_SYNC_FLAG;
+    deliver(&bridge, &reply, 5);
+    assert(!bridge.independent_valid[0]);
+    move.words[0] = 3;
+    assert(pmc_slave_bridge_submit_independent(&bridge, &move, 6, 100, NULL));
+    pmc_slave_bridge_disconnect(&bridge);
+    assert(!bridge.independent_valid[0] && !bridge.active_valid && !bridge.online);
+}
+
 static void test_unsolicited_version(void)
 {
     test_transport_t test = {.connected = true};
@@ -382,6 +421,7 @@ int main(void)
     test_encoding_and_framing();
     test_reply_semantics();
     test_bridge();
+    test_concurrent_independent();
     test_unsolicited_version();
     test_motion_routing();
     puts("PMC slave protocol, bridge and motion tests passed");

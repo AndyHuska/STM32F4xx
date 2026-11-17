@@ -33,6 +33,13 @@
 #include "lwip.h"
 #include "lwip/init.h"
 #include "ethernetif.h"
+#if BOOTP_ENABLE
+#include "bootp_client.h"
+#endif
+
+#ifndef ETHERNET_DHCP_SERVER_ENABLE
+#define ETHERNET_DHCP_SERVER_ENABLE 1
+#endif
 
 #include "grbl/report.h"
 #include "grbl/task.h"
@@ -79,7 +86,7 @@ static network_info_t *get_info (const char *interface)
 
         strcpy(info.status.ip, network_status.ip_aquired ? IPAddress : "");
 
-        if(info.status.ip_mode == IpMode_DHCP) {
+        if(info.status.ip_mode == IpMode_DHCP || info.status.ip_mode == IpMode_BOOTP) {
             *info.status.gateway = '\0';
             *info.status.mask = '\0';
         }
@@ -155,12 +162,14 @@ static void netif_status_callback (struct netif *netif)
 
     ip4addr_ntoa_r(netif_ip_addr4(netif), IPAddress, IP4ADDR_STRLEN_MAX);
 
+#if ETHERNET_DHCP_SERVER_ENABLE
     if(network.ip_mode == IpMode_Static && !dhcp) {
 
         static dhcp_server_t dhcp_data;
 
         dhcp = dhcp_server_init(&dhcp_data, (ip_addr_t *)&network.ip, (ip_addr_t *)&network.mask);
     }
+#endif
 
 #if TELNET_ENABLE
     if(network.services.telnet && !services.telnet)
@@ -244,10 +253,15 @@ static void link_status_callback (struct netif *netif)
         if((network_status.link_up = isLinkUp)) {
             if(network.ip_mode == IpMode_DHCP && !dhcp_running)
                 dhcp_running = dhcp_start(netif_default) == ERR_OK;
-        } else if(network.ip_mode == IpMode_DHCP && network_status.ip_aquired) {
+        } else if((network.ip_mode == IpMode_DHCP || network.ip_mode == IpMode_BOOTP) && network_status.ip_aquired) {
             changed.ip_aquired = On;
             network_status.ip_aquired = Off;
         }
+
+#if BOOTP_ENABLE
+        if(network.ip_mode == IpMode_BOOTP)
+            bootp_client_link(netif, isLinkUp);
+#endif
 
         status_event_publish(changed);
 
@@ -269,6 +283,10 @@ static void enet_poll (void *data)
 
     sys_check_timeouts();
     ethernetif_input(netif_default);
+#if BOOTP_ENABLE
+    if(network.ip_mode == IpMode_BOOTP)
+        bootp_client_poll();
+#endif
 
     if(network_status.link_up) switch(++ms) {
 #if TELNET_ENABLE
@@ -482,7 +500,11 @@ static const setting_group_detail_t ethernet_groups [] = {
 static const setting_detail_t ethernet_settings[] = {
     { Setting_NetworkServices, Group_Networking, "Network Services", NULL, Format_Bitfield, netservices, NULL, NULL, Setting_NonCoreFn, ethernet_set_services, ethernet_get_services, NULL, { .reboot_required = On } },
     { Setting_Hostname, Group_Networking, "Hostname", NULL, Format_String, "x(64)", NULL, "64", Setting_NonCore, ethernet.hostname, NULL, NULL, { .reboot_required = On } },
+#if BOOTP_ENABLE
+    { Setting_IpMode, Group_Networking, "IP Mode", NULL, Format_RadioButtons, "Static,DHCP,AutoIP,BOOTP", NULL, NULL, Setting_NonCore, &ethernet.ip_mode, NULL, NULL, { .reboot_required = On } },
+#else
     { Setting_IpMode, Group_Networking, "IP Mode", NULL, Format_RadioButtons, "Static,DHCP,AutoIP", NULL, NULL, Setting_NonCore, &ethernet.ip_mode, NULL, NULL, { .reboot_required = On } },
+#endif
     { Setting_IpAddress, Group_Networking, "IP Address", NULL, Format_IPv4, NULL, NULL, NULL, Setting_NonCoreFn, ethernet_set_ip, ethernet_get_ip, NULL, { .reboot_required = On } },
     { Setting_Gateway, Group_Networking, "Gateway", NULL, Format_IPv4, NULL, NULL, NULL, Setting_NonCoreFn, ethernet_set_ip, ethernet_get_ip, NULL, { .reboot_required = On } },
     { Setting_NetMask, Group_Networking, "Netmask", NULL, Format_IPv4, NULL, NULL, NULL, Setting_NonCoreFn, ethernet_set_ip, ethernet_get_ip, NULL, { .reboot_required = On } },

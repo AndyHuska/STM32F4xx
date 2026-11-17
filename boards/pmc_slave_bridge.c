@@ -61,14 +61,39 @@ bool pmc_slave_bridge_submit(pmc_slave_bridge_t *bridge, const pmc_slave_packet_
     return true;
 }
 
+bool pmc_slave_bridge_submit_independent(pmc_slave_bridge_t *bridge, const pmc_slave_packet_t *request,
+                                         uint32_t now_ms, uint32_t timeout_ms, uint32_t *sequence)
+{
+    if(!bridge || !bridge->online || !bridge->transport.send || !pmc_slave_request_valid(request) ||
+       request->command != (PmcSlave_MoveIndependent | PMC_SLAVE_SYNC_FLAG) ||
+       !timeout_ms || timeout_ms > INT32_MAX)
+        return false;
+    uint8_t axis = (uint8_t)(request->words[0] - PMC_SLAVE_AXIS_D);
+    if(axis >= 2 || bridge->independent_valid[axis])
+        return false;
+    bridge->independent[axis].packet = *request;
+    bridge->independent[axis].packet.sequence = next_sequence(bridge);
+    bridge->independent[axis].deadline = now_ms + timeout_ms;
+    bridge->independent_sent[axis] = false;
+    bridge->independent_valid[axis] = true;
+    if(sequence)
+        *sequence = bridge->independent[axis].packet.sequence;
+    return true;
+}
+
 void pmc_slave_bridge_disconnect(pmc_slave_bridge_t *bridge)
 {
-    uint32_t sequences[PMC_SLAVE_QUEUE_SIZE + 1];
+    uint32_t sequences[PMC_SLAVE_QUEUE_SIZE + 3];
     uint8_t count = 0;
     bool was_online = bridge->online;
 
     if(bridge->active_valid)
         sequences[count++] = bridge->active.packet.sequence;
+    for(uint8_t axis = 0; axis < 2; axis++) {
+        if(bridge->independent_valid[axis])
+            sequences[count++] = bridge->independent[axis].packet.sequence;
+        bridge->independent_valid[axis] = bridge->independent_sent[axis] = false;
+    }
     while(bridge->queue_count) {
         sequences[count++] = bridge->queue[bridge->queue_head].packet.sequence;
         bridge->queue_head = (uint8_t)((bridge->queue_head + 1) % PMC_SLAVE_QUEUE_SIZE);
@@ -100,6 +125,27 @@ void pmc_slave_bridge_poll(pmc_slave_bridge_t *bridge, uint32_t now_ms)
         emit(bridge, PmcSlaveEvent_Timeout, sequence, NULL);
         pmc_slave_bridge_disconnect(bridge);
         return;
+    }
+
+    for(uint8_t axis = 0; axis < 2; axis++) {
+        if(!bridge->independent_valid[axis])
+            continue;
+        pmc_slave_request_t *request = &bridge->independent[axis];
+        if((int32_t)(now_ms - request->deadline) >= 0) {
+            uint32_t sequence = request->packet.sequence;
+            bridge->independent_valid[axis] = false;
+            emit(bridge, PmcSlaveEvent_Timeout, sequence, NULL);
+            pmc_slave_bridge_disconnect(bridge);
+            return;
+        }
+        if(!bridge->independent_sent[axis]) {
+            size_t size = pmc_slave_encode(&request->packet, bridge->frame, sizeof(bridge->frame));
+            if(!size || !bridge->transport.send(bridge->transport.context, bridge->frame, size))
+                return;
+            bridge->independent_sent[axis] = true;
+            bridge->last_tx = now_ms;
+            emit(bridge, PmcSlaveEvent_Sent, request->packet.sequence, NULL);
+        }
     }
 
     while(!bridge->active_valid && bridge->queue_count) {
@@ -163,6 +209,18 @@ static void received(pmc_slave_bridge_t *bridge, uint32_t now_ms)
         bridge->status_valid = true;
         emit(bridge, PmcSlaveEvent_Status, packet->sequence, packet);
         return;
+    }
+
+    for(uint8_t axis = 0; axis < 2; axis++) {
+        if(bridge->independent_valid[axis] && bridge->independent_sent[axis] &&
+           packet->sequence == bridge->independent[axis].packet.sequence &&
+           ((packet->command & UINT32_C(0xFFFF)) == PmcSlave_MoveIndependent || kind == PmcSlaveReply_Error)) {
+            if(kind == PmcSlaveReply_Completion || kind == PmcSlaveReply_Error ||
+               (packet->word_count == 1 && packet->words[0] == 0))
+                bridge->independent_valid[axis] = bridge->independent_sent[axis] = false;
+            emit(bridge, PmcSlaveEvent_Reply, packet->sequence, packet);
+            return;
+        }
     }
 
     bool matched = bridge->active_valid && packet->sequence == bridge->active.packet.sequence &&

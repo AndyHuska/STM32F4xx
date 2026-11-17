@@ -1,5 +1,14 @@
 # Legacy PMC Slave Bridge
 
+2026-11-12 DirectMotion extension: when this bridge is bound, the F4 adapter now
+routes U/V setup/manual moves asynchronously as legacy MoveIndependent packets,
+with independent completion slots for both axes. It also queues independent
+velocity jog commands and remote stop/status callbacks. Without a physical
+transport/binding, temporary main-CPU U/V pins remain active. See the plugins
+fork's [DirectMotion contract](../plugins/DIRECT_MOTION.md) for wire compatibility,
+client completion semantics and legacy global-stop limitations. This supersedes
+earlier statements below that DirectMotion routing is wholly unimplemented.
+
 The authoritative v2 implementation contracts are now
 [PMC_SLAVE_V2_API_SPEC.md](PMC_SLAVE_V2_API_SPEC.md) and
 [CLIENT_SLAVE_UPDATE_SPEC.md](CLIENT_SLAVE_UPDATE_SPEC.md). They supersede
